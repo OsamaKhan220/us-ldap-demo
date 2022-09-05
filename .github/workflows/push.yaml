@@ -24,6 +24,13 @@ jobs:
           RELEASE_BRANCHES: main
           INITIAL_VERSION: 0.0.0
           WITH_V: true
+        
+      # Update chart tag to the latest semver tag
+      - name: Update Chart Version
+        env:
+          VERSION: ${{ steps.generate_tag.outputs.new_tag }}
+        run: |
+          make bump-chart
 
       # Set Up Helm
       - name: Set up Helm
