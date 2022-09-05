@@ -19,7 +19,7 @@ jobs:
         id: generate_tag
         uses: anothrNick/github-tag-action@1.38.0
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
           WITH_V: false
           DEFAULT_BUMP: patch
           # RELEASE_BRANCHES: main
@@ -36,7 +36,7 @@ jobs:
       - name: Helm Lint
         run: |
           helm lint deploy
-          echo ${{ secrets.GITHUB_TOKEN }}
+          echo ${{ secrets.AUTH_TOKEN }}
 
       # Publish helm chart
       - name: Publish Helm chart
@@ -45,7 +45,7 @@ jobs:
           branch: main
           repository: charts
           target_dir: docs
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.AUTH_TOKEN }}
           charts_dir: .
           charts_url: https://osamakhan220.github.io/charts/
           owner: osamakhan220
