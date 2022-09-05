@@ -1,0 +1,66 @@
+name: package-and-push
+
+on:
+  push:
+    branches:
+      - "main"
+
+env:
+  HELM_URL: "oci://quay.io/fmi/share-weatherproof-fi-chart"
+
+jobs:
+  update-versions:
+    name: Update Versions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Push to Registry action
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
+
+      - name: Generate Tag
+        id: generate_tag
+        uses: anothrNick/github-tag-action@1.38.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
+          RELEASE_BRANCHES: main
+          INITIAL_VERSION: 0.0.0
+
+      - name: Publish Helm chart
+        uses: stefanprodan/helm-gh-pages@master
+        with:
+          branch: main
+          repository: charts
+          target_dir: docs
+          token: ${{ secrets.GITHUB_TOKEN }}
+          charts_dir: deploy
+          charts_url: https://osamakhan220.github.io/charts/
+          owner: osamakhan220
+          linting: off
+          commit_username: osamakhan220
+          commit_email: osama@stakater.com
+
+    #  - name: 'Update Chart'
+    #    run: |
+    #      echo "Before changes"
+    #      cat pak/share-weatherproof-fi/dev/Chart.yaml
+    #      cat pak/share-weatherproof-fi/dev/values.yaml
+    #      yq -i '.dependencies[0].version = "${{ steps.build_image.outputs.tags }}"' pak/share-weatherproof-fi/dev/Chart.yaml
+    #      yq -i '.version = "${{ steps.build_image.outputs.tags }}"' pak/share-weatherproof-fi/dev/Chart.yaml
+    #      yq -i '."share-weatherproof-fi-chart".application.deployment.image.tag = "${{ steps.build_image.outputs.tags }}"' pak/share-weatherproof-fi/dev/values.yaml
+    #      echo "After changes"
+    #      cat pak/share-weatherproof-fi/dev/Chart.yaml
+    #      cat pak/share-weatherproof-fi/dev/values.yaml
+    #      echo "File updated"
+
+    #  # Commit back change
+    #  - name: Commit files
+    #    run: |
+    #      git config --local user.email "noreply@fmi.fi"
+    #      git config --local user.name "share.weatherproof.fi-ci"
+    #      git status
+    #      git diff
+    #      git add .
+    #      git commit -m "[skip-ci] Update artifacts" -a
+    #      git push
