@@ -53,7 +53,7 @@ jobs:
       - name: Check out remote code
         uses: actions/checkout@v2
         with:
-          repository: "https://github.com/OsamaKhan220/us-apps-gitops"
+          repository: "OsamaKhan220/us-apps-gitops"
           persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
           fetch-depth: 0 # otherwise, you will fail to push refs to dest repo
 
