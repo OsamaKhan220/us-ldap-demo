@@ -26,14 +26,6 @@ jobs:
           # INITIAL_VERSION: 0.0.0
           DRY_RUN: true
 
-      # Update chart tag to the latest semver tag
-      - name: Update Chart Version
-        env:
-          VERSION: ${{ steps.generate_tag.outputs.new_tag }}
-        run: |
-          pwd
-          ls
-
       # Set Up Helm
       - name: Set up Helm
         uses: azure/setup-helm@v1
@@ -44,13 +36,6 @@ jobs:
       - name: Helm Lint
         run: |
           helm lint deploy
-          pwd
-          ls
-      # Dry run to ensure that manifests are generated successfully
-      - name: Dry Run Chart
-        run: |
-          helm install us-ldap us-ldap -f deploy/values.yaml -n dev-ldap --dry-run --debug
-
 
       # Publish helm chart
       - name: Publish Helm chart
