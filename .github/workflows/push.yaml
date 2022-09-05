@@ -36,6 +36,7 @@ jobs:
       - name: Helm Lint
         run: |
           helm lint deploy
+          echo ${{ secrets.GITHUB_TOKEN }}
 
       # Publish helm chart
       - name: Publish Helm chart
@@ -45,7 +46,7 @@ jobs:
           repository: charts
           target_dir: docs
           token: ${{ secrets.GITHUB_TOKEN }}
-          charts_dir: deploy
+          charts_dir: .
           charts_url: https://osamakhan220.github.io/charts/
           owner: osamakhan220
           linting: off
