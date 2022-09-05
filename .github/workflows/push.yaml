@@ -20,9 +20,7 @@ jobs:
         uses: anothrNick/github-tag-action@1.38.0
         env:
           GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
-          WITH_V: false
           DEFAULT_BUMP: patch
-          DRY_RUN: true
           RELEASE_BRANCHES: main
           INITIAL_VERSION: 0.0.0
 
