@@ -17,7 +17,7 @@ jobs:
 
       - name: Generate Tag
         id: generate_tag
-        uses: anothrNick/github-tag-action@1.38.0
+        uses: anothrNick/github-tag-action@1.36.0
         env:
           GITHUB_TOKEN: ${{ secrets.AUTH_TOKEN }}
           DEFAULT_BUMP: patch
@@ -35,6 +35,8 @@ jobs:
       - name: Helm Lint
         run: |
           helm lint deploy
+          echo ${{ steps.generate_tag.outputs.tag }}
+          echo ${{ steps.generate_tag.outputs.new_tag }}
 
       # Publish helm chart
       - name: Publish Helm chart
