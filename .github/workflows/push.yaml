@@ -31,7 +31,6 @@ jobs:
         env:
           VERSION: ${{ steps.generate_tag.outputs.new_tag }}
         run: |
-          make bump-chart
           pwd
           ls
 
